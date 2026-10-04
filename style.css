@@ -1,13 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@500;600;700&display=swap');
 
 :root {
-  /* ---- 시안B 토큰: AI강의 플레이어와 동일 (연회색 바탕 + 흰 카드 + 틸 포인트) ---- */
+  /* ---- 시안B(틸) + 문서자료의 노랑·주황 포인트 ---- */
   --ink: #1B2733;
-  --body: #444D57;
   --muted: #5F6E7C;
   --page: #F3F3F5;
   --card: #FFFFFF;
-  --surface: #F3FAFA;
   --border: #E6ECEF;
   --border-strong: #CFE5E4;
 
@@ -16,20 +14,25 @@
   --accent-deep: #0A7476;
   --accent-bg: #DDF2F1;
   --accent-soft: #F3FAFA;
-  --accent-highlight: #BFE8E5;
   --accent-light: #7CCBC8;
+
+  /* 노랑·주황 포인트 (문서자료와 동일 계열) */
+  --amber: #E39A2D;
+  --amber-ink: #8A5A00;
+  --amber-bg: #FFF1D8;
+  --amber-highlight: #FFE2A6;
 
   --blue-bg: #E9EEFB;
   --blue-ink: #3A4FA3;
 
-  --pending-bg: #E9EEF1;
-  --pending-ink: #5F6E7C;
+  --pending-bg: #FFF1D8;
+  --pending-ink: #8A5A00;
 
   --font: 'IBM Plex Sans KR', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --serif: 'Noto Serif KR', 'Source Serif 4', Georgia, serif;
 
   --radius: 12px;
   --radius-lg: 16px;
-  --radius-sm: 8px;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 8px 20px -10px rgba(10, 95, 97, 0.28), 0 2px 6px -2px rgba(0, 0, 0, 0.06);
@@ -57,7 +60,7 @@ button:focus-visible,
 .book-card:focus-visible,
 .unit-row:focus-visible,
 .link-card:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--amber);
   outline-offset: 2px;
   border-radius: 8px;
 }
@@ -66,35 +69,37 @@ button:focus-visible,
   * { transition: none !important; animation: none !important; }
 }
 
-/* ---- 전체 카드(플레이어 느낌) ---- */
+/* ---- 전체 카드 + 왼쪽 세로 띠(위는 주황, 아래는 틸) ---- */
 .shell {
+  position: relative;
   max-width: 1040px;
   width: 94vw;
   margin: 4vh auto;
+  padding-left: 16px;
   background: var(--card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
 }
+.shell::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 16px;
+  background: linear-gradient(to bottom, var(--amber) 0, var(--amber) 76px, var(--accent) 76px);
+}
 
-/* ---- 상단 바: 위쪽 틸 그라데이션 띠 + 둥근 라벨 ---- */
+/* ---- 상단 바: 아래 틸 선 ---- */
 .topbar {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 16px 24px 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 16px 28px 14px;
+  border-bottom: 2px solid var(--accent);
   background: var(--card);
   position: sticky;
   top: 0;
   z-index: 10;
-}
-.topbar::before {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-light));
 }
 .topbar .back {
   font-size: 13px;
@@ -106,93 +111,97 @@ button:focus-visible,
 }
 .topbar .back:hover { color: var(--accent-ink); }
 .topbar .brand {
-  font-weight: 700;
-  font-size: 14.5px;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 15px;
   display: flex;
   align-items: center;
   gap: 9px;
-  color: var(--ink);
+  color: var(--accent-ink);
 }
 
-/* 로고: 틸색 둥근 라벨 */
 .logo-mark {
   width: 24px;
   height: 24px;
-  border-radius: 8px;
+  border-radius: 50%;
   background: var(--accent-deep);
   color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--serif);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   flex-shrink: 0;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--amber);
 }
 
-/* ---- 본문 영역 ---- */
+/* ---- 본문 ---- */
 .wrap {
   max-width: 1040px;
   margin: 0 auto;
   padding: 28px 44px 56px;
 }
-/* .shell 안에서는 폭을 shell이 정함 */
 .shell .wrap { max-width: none; }
 
-/* ---- 히어로: 틸 숫자 타일 + 제목 ---- */
+/* ---- 히어로: "20번" 같은 원형 번호 + 제목 + 주황 밑줄 라벨 ---- */
 .hero {
   padding: 8px 0 6px;
   display: grid;
   grid-template-columns: auto 1fr;
-  column-gap: 22px;
-  align-items: stretch;
+  column-gap: 26px;
+  align-items: center;
 }
 .hero .tag {
   grid-column: 1 / -1;
   justify-self: start;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--accent-ink);
-  background: var(--accent-bg);
-  border-radius: 999px;
-  padding: 3px 12px;
-  margin-bottom: 14px;
+  padding: 0 2px 2px;
+  margin-bottom: 18px;
+  border-bottom: 3px solid var(--amber);
 }
 .hero .mark {
-  width: 110px;
-  background: var(--accent-deep);
-  color: #fff;
-  font-weight: 700;
+  width: 112px;
+  height: 112px;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--accent-ink);
+  font-family: var(--serif);
+  font-weight: 500;
   font-size: 44px;
-  border-radius: 14px;
   display: grid;
   place-items: center;
 }
-.hero .hero-text { min-width: 0; align-self: center; }
+.hero .hero-text { min-width: 0; }
 .hero h1 {
+  font-family: var(--serif);
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 600;
   margin: 0 0 6px;
-  line-height: 1.25;
-  color: var(--ink);
+  line-height: 1.3;
+  color: var(--accent-ink);
 }
 .hero p {
-  font-size: 16px;
+  font-size: 15.5px;
   color: var(--muted);
   margin: 0;
   max-width: 56ch;
   font-weight: 500;
 }
-/* 마크 없는 하위 페이지용 히어로 */
+/* 마크가 없는 하위 페이지용 */
 .hero:not(:has(.mark)) { display: block; }
 .hero:not(:has(.mark)) h1 { margin-top: 6px; }
 .hero:not(:has(.mark))::after {
   content: "";
   display: block;
-  width: 34px;
+  width: 40px;
   height: 3px;
   margin-top: 16px;
   border-radius: 2px;
-  background: var(--accent);
+  background: var(--amber);
 }
 
 /* ---- Breadcrumb ---- */
@@ -211,13 +220,13 @@ button:focus-visible,
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 26px;
+  margin-top: 28px;
 }
 .area-card {
   background: var(--card);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  padding: 18px 20px;
+  padding: 20px 20px 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -226,7 +235,7 @@ button:focus-visible,
   position: relative;
   transition: transform 0.18s cubic-bezier(.2,.7,.3,1), box-shadow 0.18s ease, border-color 0.18s ease;
 }
-.area-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent-light); }
+.area-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--amber); }
 .area-card:active { transform: scale(0.98); }
 
 .area-card .icon {
@@ -241,16 +250,24 @@ button:focus-visible,
 }
 .area-card .icon svg { width: 18px; height: 18px; }
 
-/* 핵심 영역: 틸 채움 아이콘 */
+/* 핵심 영역: 위쪽 주황 선 + 틸 아이콘 */
 .area-card.featured { background: var(--accent-soft); }
+.area-card.featured::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--amber);
+}
 .area-card.featured .icon {
   background-color: var(--accent-deep);
   color: #fff;
 }
 
 .area-card .name {
+  font-family: var(--serif);
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink);
 }
 .area-card .count {
@@ -277,11 +294,11 @@ button:focus-visible,
   background: var(--card);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  padding: 16px 16px;
+  padding: 16px;
   box-shadow: var(--shadow-sm);
   transition: transform 0.18s cubic-bezier(.2,.7,.3,1), box-shadow 0.18s ease, border-color 0.18s ease;
 }
-.book-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent-light); }
+.book-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--amber); }
 
 .book-card .badge {
   display: inline-block;
@@ -294,10 +311,11 @@ button:focus-visible,
   margin-bottom: 10px;
 }
 .book-card .title {
+  font-family: var(--serif);
   font-size: 15.5px;
-  font-weight: 700;
+  font-weight: 600;
   margin: 0 0 10px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--ink);
 }
 .book-card.no-badge .title { margin-top: 2px; }
@@ -312,11 +330,15 @@ button:focus-visible,
 .status.ready { background: var(--accent-bg); color: var(--accent-ink); }
 .status.pending { background: var(--pending-bg); color: var(--pending-ink); }
 
+/* 섹션 라벨: 문서자료의 '핵심 요약' 같은 주황 밑줄 */
 .section-label {
-  font-size: 13px;
+  display: inline-block;
+  font-size: 14px;
   font-weight: 700;
   color: var(--accent-ink);
-  margin: 34px 0 4px;
+  margin: 36px 0 2px;
+  padding-bottom: 2px;
+  border-bottom: 3px solid var(--amber);
 }
 .section-label:first-of-type { margin-top: 24px; }
 
@@ -325,13 +347,13 @@ footer {
   font-size: 12.5px;
   color: var(--muted);
   text-align: left;
-  border-top: 1px solid var(--border);
+  border-top: 1px dotted #C9D3DA;
   padding-top: 16px;
 }
 
-/* ---- 강의 목록 (unit-row / auto-list) ---- */
+/* ---- 강의 목록 ---- */
 .unit-list {
-  border-top: 1px solid var(--border);
+  border-top: 2px solid var(--accent);
   margin-top: 20px;
 }
 .unit-row {
@@ -342,7 +364,7 @@ footer {
   border-bottom: 1px solid var(--border);
   transition: background-color 0.15s ease;
 }
-.unit-row:hover { background: var(--accent-soft); }
+.unit-row:hover { background: var(--amber-bg); }
 .unit-row .tag {
   flex-shrink: 0;
   font-size: 12px;
@@ -350,7 +372,7 @@ footer {
   color: var(--muted);
   min-width: 30px;
 }
-.unit-row .tag.key { color: var(--accent-ink); }
+.unit-row .tag.key { color: var(--amber-ink); }
 .unit-row .txt {
   flex: 1;
   font-size: 15.5px;
@@ -370,26 +392,31 @@ footer {
 .unit-list.compact .unit-row { padding: 10px 6px; }
 
 .unit-sub-head {
-  font-size: 14.5px;
-  font-weight: 700;
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
   color: var(--accent-ink);
-  margin: 22px 0 2px;
-  padding-left: 2px;
+  margin: 22px 0 2px 2px;
+  padding-bottom: 1px;
+  border-bottom: 3px solid var(--amber);
 }
 
-/* 안내 문구: 연한 틸 박스 */
+/* 안내 문구: 문서자료의 '지문' 박스처럼 왼쪽 틸 띠 + 연한 틸 배경 */
 .note {
   margin-top: 16px;
   font-size: 14px;
   color: #333;
   background: var(--accent-soft);
-  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  border-left: 5px solid var(--accent);
+  border-radius: 6px;
   padding: 12px 16px;
   line-height: 1.7;
 }
 .note b, .note strong, .key {
-  color: var(--accent-ink);
-  background: linear-gradient(transparent 60%, var(--accent-highlight) 60%);
+  color: var(--amber-ink);
+  background: linear-gradient(transparent 58%, var(--amber-highlight) 58%);
 }
 
 /* ---- 외부 링크 카드 ---- */
@@ -405,24 +432,25 @@ footer {
   box-shadow: var(--shadow-sm);
   transition: transform 0.18s cubic-bezier(.2,.7,.3,1), box-shadow 0.18s ease, border-color 0.18s ease;
 }
-.link-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--accent-light); }
+.link-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--amber); }
 .link-card .icon {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: var(--accent-bg);
+  background-color: var(--amber-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-ink);
+  color: var(--amber-ink);
   flex-shrink: 0;
 }
 .link-card .icon svg { width: 18px; height: 18px; }
 .link-card .body { flex: 1; min-width: 0; }
 .link-card .body .name {
   display: block;
+  font-family: var(--serif);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink);
 }
 .link-card .body .desc {
@@ -438,30 +466,33 @@ footer {
 /* ---- 빈 상태 ---- */
 .empty-state {
   margin-top: 22px;
-  border: 1.5px dashed var(--accent-light);
+  border: 1.5px dashed var(--amber);
   border-radius: var(--radius);
   padding: 30px 22px;
   color: var(--muted);
   font-size: 14px;
-  background: var(--accent-soft);
+  background: var(--amber-bg);
 }
 .empty-state strong {
   display: block;
-  color: var(--accent-ink);
+  font-family: var(--serif);
+  color: var(--amber-ink);
   font-size: 15.5px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 .empty-state p { margin: 0; }
 
-/* ---- 모바일: 카드 꽉 채우기 ---- */
+/* ---- 모바일 ---- */
 @media (max-width: 700px) {
   body { background: var(--card); }
-  .shell { width: 100%; margin: 0; border-radius: 0; box-shadow: none; }
-  .wrap { padding: 22px 18px 48px; }
-  .topbar { padding: 16px 18px 12px; }
-  .hero .mark { width: 72px; font-size: 32px; border-radius: 12px; }
-  .hero h1 { font-size: 24px; }
-  .hero p { font-size: 14.5px; }
+  .shell { width: 100%; margin: 0; border-radius: 0; box-shadow: none; padding-left: 10px; }
+  .shell::before { width: 10px; background: linear-gradient(to bottom, var(--amber) 0, var(--amber) 56px, var(--accent) 56px); }
+  .wrap { padding: 22px 16px 48px; }
+  .topbar { padding: 14px 16px 12px; }
+  .hero { column-gap: 16px; }
+  .hero .mark { width: 76px; height: 76px; font-size: 30px; border-width: 2.5px; }
+  .hero h1 { font-size: 23px; }
+  .hero p { font-size: 14px; }
   .area-grid { gap: 10px; }
 }
