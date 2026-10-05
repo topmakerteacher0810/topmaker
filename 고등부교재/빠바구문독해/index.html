@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>빠른독해 바른독해 구문독해 AI강의 - 일등급샘 고등영어 아카이브</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+.bb{
+  --bg:#f2f2f4; --card:#ffffff; --ink:#23262b; --sub:#6b7078; --line:#dcdde1;
+  --teal:#0f766e; --green:#00432f; --lime:#c5d63d; --amber:#d9963a;
+}
+.bb a{text-decoration:none}
+.bb *{box-sizing:border-box}
+.bb h1,.bb h2,.bb p,.bb ul,.bb li{margin:0}
+.bb{color:var(--ink);line-height:1.6}
+.b-hero{background:var(--green);color:#fff;border-radius:6px;padding:28px 26px 24px;margin-bottom:26px;border:1px solid #fff;outline:1px solid var(--green)}
+.b-hero .b-tag{display:inline-block;background:var(--lime);color:var(--green);font-weight:900;font-size:13px;padding:2px 10px;margin-bottom:14px}
+.b-hero h1{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1.2}
+.b-hero h1 i{font-style:normal;color:var(--lime)}
+.b-hero p{margin-top:8px;font-size:15px;color:#dfe8c0}
+.b-stat{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.b-stat span{border:1px solid var(--lime);color:var(--lime);font-size:13px;font-weight:700;padding:3px 12px;border-radius:999px}
+.b-ch{background:var(--card);border:1px solid var(--line);border-radius:6px;margin-bottom:14px;overflow:hidden}
+.b-ch-head{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.b-num{font-size:30px;font-weight:900;color:var(--green);min-width:44px;line-height:1}
+.b-ttl{font-size:18px;font-weight:800;letter-spacing:-.5px;flex:1}
+.b-cnt{font-size:12px;font-weight:700;color:var(--sub)}
+.b-techs{list-style:none;padding:12px 18px 6px}
+.b-techs li{display:flex;gap:10px;font-size:14.5px;padding:3px 0}
+.b-techs b{color:var(--teal);font-weight:900;min-width:22px}
+.b-lec{display:flex;gap:8px;flex-wrap:wrap;padding:10px 18px 16px}
+.bb .b-btn{display:inline-flex;flex-direction:column;gap:2px;font-size:15px;font-weight:900;padding:9px 18px;border-radius:4px;border:1px solid var(--green);background:var(--green);color:#ffffff;line-height:1.3}
+.bb .b-btn small{font-size:12px;font-weight:700;color:var(--lime)}
+.bb a.b-btn:hover{background:var(--teal);border-color:var(--teal);color:#ffffff}
+.bb .b-btn.b-off{background:#f2f2f4;border:1px dashed #b9bcc2;color:#8a8e96;font-weight:500;cursor:default}
+.b-mini{background:#fff8e6;border:1px dashed var(--amber);border-radius:6px;padding:16px 18px}
+.b-mini h2{font-size:17px;font-weight:800;margin-bottom:8px;color:#8a5a00}
+.b-mini .b-lec{padding:0}
+@media(max-width:560px){.b-hero h1{font-size:27px}.b-ttl{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="../index.html">&larr; 고등부교재</a><span class="brand" style="margin-left:auto;"><span class="logo-mark">1</span>일등급샘 고등영어 아카이브</span>
+</div>
+<div class="wrap">
+<div class="bb">
+  <p class="breadcrumb"><a href="../../index.html">전체 영역</a><span class="sep">/</span><a href="../index.html">고등부교재</a><span class="sep">/</span>빠바 구문독해</p>
+
+  <div class="b-hero">
+    <span class="b-tag">일등급샘 AI강의</span>
+    <h1>빠른독해 바른독해<br><i>빠바</i> 구문독해</h1>
+    <p>해석기법 48개를 12개 단원으로 나누어 AI강의로 익힙니다.</p>
+    <div class="b-stat"><span id="s1"></span><span>12개 단원</span><span>해석기법 48개</span></div>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="b-mini">
+    <h2>MINI TEST 1~5회</h2>
+    <div class="b-lec"><span class="b-btn b-off">준비중</span></div>
+  </div>
+
+</div>
+  <footer>© 2026 일등급샘 고등영어 아카이브</footer>
+</div>
+
+<script>
+/* ============================================================
+   ★ 강의를 새로 올릴 때는 아래 READY 목록에만 파일 번호를 추가하세요.
+   예) 5단원 강의 2개를 올렸다면  5:["05-09","05-10"]
+   (번호는 강의 폴더의 html 파일 이름과 같게 적습니다)
+   ============================================================ */
+const READY = {
+  1:["01-01","01-02"],
+  2:["02-03","02-04"],
+  3:["03-05","03-06"],
+  4:["04-07","04-08"]
+};
+/* 각 강의 아래에 표시되는 구성 설명 (첫 번째 강의 = 지문, 두 번째 강의 = 적용독해) */
+const LABELS = ["지문 2개","적용독해 지문 2개"];
+/* 단원별 총 지문 수 (공개된 단원에 표시됩니다) */
+const PASSAGES = {1:8,2:8,3:8,4:8};
+const LECTURE_FOLDER = "강의/";
+
+const CHAPTERS = [
+ [1,"문장의 머리를 찾아라",["to부정사와 동명사로 시작되면 주어인지 의심하라","명사절과 문장 전체의 주어·동사를 구별하자","문장이 주어로 시작하지 않을 수도 있다","가주어 it이 가리키는 내용은 뒤에서 찾아라"]],
+ [2,"동사는 문장의 틀을 결정한다",["동사의 의미를 통해 뒤따라올 내용을 예측한다","복잡한 수동태는 하나의 표현처럼 생각하라","「조동사+have+p.p.」의 의미를 익혀 두자","동사와 함께 쓰이는 전치사를 알아 두자"]],
+ [3,"형태와 위치가 다양한 목적어를 정복하라",["목적어로 절이 쓰인 경우에 유의하라","같은 의문사절 목적어라도 의미가 다를 수 있다","목적어로 it이 오면 뒤에 진목적어가 있는지 살펴보라","길이가 길거나 제 위치를 벗어난 목적어에 주의하라"]],
+ [4,"보어는 불완전함을 보충한다",["be동사 뒤에 오는 주격보어에 유의하라","목적어와 목적격보어를 의미 단위로 구분하자","목적격보어로 부정사가 오는 동사를 정리해 두자","보어로 쓰인 분사를 바르게 파악하자"]],
+ [5,"수식어는 괄호로 묶어라",["전치사구의 수식은 괄호로 묶어라","명사를 뒤에서 수식할 경우에 대비하라","to부정사의 수식은 문맥을 통해 의미를 구분하라","수식어가 많은 문장은 우선 주어와 동사를 찾아라"]],
+ [6,"접속사로 문장 간의 논리를 간파하라",["짝이 되어 쓰이는 상관접속사를 기억하라","접속사 전후에 나오는 대등한 어구를 각각 묶어 보자","여러 개의 절이 있을 때는 먼저 주절을 찾아라","의미와 형태가 혼동되는 접속사를 알아 두자"]],
+ [7,"관계사절이 꾸며 주는 말을 찾아라",["생략된 목적격 관계대명사를 찾아보자","관계사 앞의 수식어나 술어부를 괄호로 묶어 보자","관계부사의 선행사로 올 수 있는 말들을 알아 두자","계속적 용법은 앞뒤 문맥으로 의미를 파악한다","복합관계사의 두 가지 쓰임을 알아 두자"]],
+ [8,"문맥을 통해 분사구문의 의미를 파악하라",["분사구문의 의미는 문맥으로 판단하자","과거분사로 시작하면 수동형 분사구문인지 따져 보라","분사구문의 접속사나 주어는 생략되지 않을 수도 있다","「with+(대)명사+v-ing/p.p.」도 분사구문처럼 해석하라"]],
+ [9,"가정법의 형태와 의미를 혼동하지 마라",["가정법은 상황을 반대로 보면서 이해하라","「주어+wish/as if+가정법」은 주절의 시제와 비교하라","동사를 보고 가정의 의미가 숨어 있는지 확인하라","도치된 가정법 문장은 동사를 통해 파악한다"]],
+ [10,"비교 표현의 형태를 이해하라",["비교 구문의 기본 형태와 주요 구문을 파악하라","비교 구문에서 무엇이 생략되었는지를 생각하라","원급·비교급을 이용한 최상급 표현을 익혀 두자","배수사를 사용하는 비교 표현에 유의하라"]],
+ [11,"숨어 있는 부정의 의미를 찾아라",["부정의 의미를 가지는 표현들을 조심하라","부분부정과 이중부정에 주의하라","부정 강조어구는 해석하려고 애쓰지 마라"]],
+ [12,"특수 구문의 질서를 익혀 두자",["어구의 생략에 주의하자","어려운 삽입구나 삽입절은 건너뛰어라","동격 관계의 형태를 익혀 두자","도치 구문의 주어와 동사를 찾아라"]]
+];
+
+let tech = 1, total = 0;
+const list = document.getElementById("list");
+CHAPTERS.forEach(([n,title,items])=>{
+  const ready = READY[n] || [];
+  total += ready.length;
+  const first = tech;
+  const lis = items.map(t=>`<li><b>${String(tech++).padStart(2,"0")}</b><span>${t}</span></li>`).join("");
+  const btns = ready.length
+    ? ready.map((id,i)=>`<a class="b-btn" href="${LECTURE_FOLDER}${id}.html">${id} 강의 보기<small>${LABELS[i]||""}</small></a>`).join("")
+    : `<span class="b-btn b-off">준비중</span>`;
+  list.insertAdjacentHTML("beforeend",
+   `<section class="b-ch">
+      <div class="b-ch-head"><div class="b-num">${String(n).padStart(2,"0")}</div><div class="b-ttl">${title}</div><div class="b-cnt">해석기법 ${first}–${tech-1}${PASSAGES[n]?" · 총 "+PASSAGES[n]+"개 지문":""}</div></div>
+      <ul class="b-techs">${lis}</ul>
+      <div class="b-lec">${btns}</div>
+    </section>`);
+});
+document.getElementById("s1").textContent = "공개 강의 " + total + "개";
+</script>
+</body>
+</html>
