@@ -1,130 +1,63 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>빠른독해 바른독해 구문독해 AI강의 - 일등급샘 고등영어 아카이브</title>
-<link rel="stylesheet" href="../../style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고등부교재 - 일등급샘 고등영어 아카이브</title>
+<link rel="stylesheet" href="../style.css">
 <style>
-.bb{
-  --bg:#f2f2f4; --card:#ffffff; --ink:#23262b; --sub:#6b7078; --line:#dcdde1;
-  --teal:#0f766e; --green:#00432f; --lime:#c5d63d; --amber:#d9963a;
-}
-.bb a{text-decoration:none}
-.bb *{box-sizing:border-box}
-.bb h1,.bb h2,.bb p,.bb ul,.bb li{margin:0}
-.bb{color:var(--ink);line-height:1.6}
-.b-hero{background:var(--green);color:#fff;border-radius:6px;padding:28px 26px 24px;margin-bottom:26px;border:1px solid #fff;outline:1px solid var(--green)}
-.b-hero .b-tag{display:inline-block;background:var(--lime);color:var(--green);font-weight:900;font-size:13px;padding:2px 10px;margin-bottom:14px}
-.b-hero h1{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1.2}
-.b-hero h1 i{font-style:normal;color:var(--lime)}
-.b-hero p{margin-top:8px;font-size:15px;color:#dfe8c0}
-.b-stat{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.b-stat span{border:1px solid var(--lime);color:var(--lime);font-size:13px;font-weight:700;padding:3px 12px;border-radius:999px}
-.b-ch{background:var(--card);border:1px solid var(--line);border-radius:6px;margin-bottom:14px;overflow:hidden}
-.b-ch-head{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
-.b-num{font-size:30px;font-weight:900;color:var(--green);min-width:44px;line-height:1}
-.b-ttl{font-size:18px;font-weight:800;letter-spacing:-.5px;flex:1}
-.b-cnt{font-size:12px;font-weight:700;color:var(--sub)}
-.b-techs{list-style:none;padding:4px 18px 8px}
-.b-techs li{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;font-size:14.5px;padding:9px 0;border-bottom:1px dashed var(--line)}
-.b-techs li:last-child{border-bottom:0}
-.b-t{flex:1;min-width:200px}
-.b-pair{display:flex;gap:8px}
-.b-techs b{color:var(--teal);font-weight:900;min-width:22px}
-.b-lec{display:flex;gap:8px;flex-wrap:wrap;padding:10px 18px 16px}
-.bb .b-btn{display:inline-flex;flex-direction:column;gap:2px;font-size:15px;font-weight:900;padding:9px 18px;border-radius:4px;border:1px solid var(--green);background:var(--green);color:#ffffff;line-height:1.3}
-.bb .b-btn small{font-size:12px;font-weight:700;color:var(--lime)}
-.bb a.b-btn:hover{background:var(--teal);border-color:var(--teal);color:#ffffff}
-.bb .b-btn.b-off{background:#f2f2f4;border:1px dashed #b9bcc2;color:#8a8e96;font-weight:500;cursor:default}
-.b-mini{background:#fff8e6;border:1px dashed var(--amber);border-radius:6px;padding:16px 18px}
-.b-mini h2{font-size:17px;font-weight:800;margin-bottom:8px;color:#8a5a00}
-.b-mini .b-lec{padding:0}
-.bb .b-techs .b-btn{padding:6px 14px;font-size:14px;align-items:center;min-width:112px}
-.bb .b-btn.b-off small{color:#8a8e96}
-@media(max-width:560px){.b-hero h1{font-size:27px}.b-ttl{font-size:16px}}
+/* 부교재 선택 카드 (첫 화면 카드와 같은 모양) */
+.bk-label{display:inline-block;font-size:14px;font-weight:800;color:#1f3a3a;padding-bottom:4px;border-bottom:2px solid #d9963a;margin:6px 0 16px}
+.bk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.bk-card{display:block;position:relative;box-sizing:border-box;min-height:150px;padding:22px 22px 20px;background:#eef8f7;border:1px solid #cfe6e3;border-top:3px solid #d9963a;border-radius:10px;color:inherit;text-decoration:none;transition:box-shadow .15s,transform .15s}
+a.bk-card:hover{box-shadow:0 6px 18px rgba(15,118,110,.18);transform:translateY(-2px)}
+.bk-icon{width:36px;height:36px;border-radius:50%;background:#0f766e;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.bk-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bk-title{font-size:19px;font-weight:700;line-height:1.35;margin:0 0 8px}
+.bk-sub{font-size:13px;color:#5d6a70;margin:0}
+.bk-tag{display:inline-block;margin-top:12px;font-size:12px;font-weight:700;color:#0f766e;background:#fff;border:1px solid #cfe6e3;border-radius:999px;padding:2px 10px}
+.bk-card.soon{background:#fff;border:1px dashed #c9ccd2;border-top:3px solid #c9ccd2;cursor:default}
+.bk-card.soon .bk-icon{background:#e8eaf8}
+.bk-card.soon .bk-icon svg{stroke:#5a64b8}
+.bk-card.soon .bk-title{color:#8a8e96;font-size:17px}
+@media(max-width:640px){.bk-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
 <div class="topbar">
-  <a class="back" href="../index.html">&larr; 고등부교재</a><span class="brand" style="margin-left:auto;"><span class="logo-mark">1</span>일등급샘 고등영어 아카이브</span>
+  <a class="back" href="../index.html">&larr; 전체 영역</a><span class="brand" style="margin-left:auto;"><span class="logo-mark">1</span>일등급샘 고등영어 아카이브</span>
 </div>
+
 <div class="wrap">
-<div class="bb">
-  <p class="breadcrumb"><a href="../../index.html">전체 영역</a><span class="sep">/</span><a href="../index.html">고등부교재</a><span class="sep">/</span>빠바 구문독해</p>
-
-  <div class="b-hero">
-    <span class="b-tag">일등급샘 AI강의</span>
-    <h1>빠른독해 바른독해<br><i>빠바</i> 구문독해</h1>
-    <p>해석기법 48개를 12개 단원으로 나누어 AI강의로 익힙니다.</p>
-    <div class="b-stat"><span id="s1"></span><span>12개 단원</span><span>해석기법 48개</span></div>
+  <p class="breadcrumb"><a href="../index.html">전체 영역</a><span class="sep">/</span>고등부교재</p>
+  <div class="hero">
+    <h1>고등부교재</h1>
+    <p>학습할 부교재를 선택하세요. 작업이 이루어지는 교재부터 순차적으로 추가됩니다.</p>
   </div>
 
-  <div id="list"></div>
+  <div class="bk-label">부교재 선택</div>
+  <div class="bk-grid">
 
-  <div class="b-mini">
-    <h2>MINI TEST 1~5회</h2>
-    <div class="b-lec"><span class="b-btn b-off">준비중</span></div>
+    <!-- ▼ 새 부교재는 아래 카드 블록을 복사해서 추가하세요 -->
+    <a class="bk-card" href="빠바구문독해/index.html">
+      <div class="bk-icon"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 8h6"/></svg></div>
+      <h2 class="bk-title">빠른독해 바른독해<br>구문독해</h2>
+      <p class="bk-sub">NE능률 · 해석기법 48개 AI강의</p>
+      <span class="bk-tag">01단원 공개</span>
+    </a>
+    <!-- ▲ 여기까지가 카드 1개입니다 -->
+
+    <div class="bk-card soon">
+      <div class="bk-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <h2 class="bk-title">다음 교재</h2>
+      <p class="bk-sub">교재 추가 예정</p>
+    </div>
+
   </div>
 
+  <footer>&copy; 2026 일등급샘 고등영어 아카이브</footer>
 </div>
-  <footer>© 2026 일등급샘 고등영어 아카이브</footer>
-</div>
 
-<script>
-/* ============================================================
-   ★ 강의를 새로 올릴 때는 아래 LECTURES 목록에만 추가하세요.
-   형식:  해석기법번호:["적용독해 첫째 강의 파일","적용독해 둘째 강의 파일"]
-   (파일 이름은 강의 폴더의 html 파일 이름에서 .html만 뺀 것)
-   해석기법 번호는 1~48번(책의 해석기법 번호)입니다.
-   예) 해석기법 05 강의 2개를 올렸다면  5:["05-09","05-10"]
-   ============================================================ */
-const LECTURES = {
-  1:["01-01","01-02"],
-  2:["02-03","02-04"],
-  3:["03-05","03-06"],
-  4:["04-07","04-08"]
-};
-const LECTURE_FOLDER = "강의/";
-
-const CHAPTERS = [
- [1,"문장의 머리를 찾아라",["to부정사와 동명사로 시작되면 주어인지 의심하라","명사절과 문장 전체의 주어·동사를 구별하자","문장이 주어로 시작하지 않을 수도 있다","가주어 it이 가리키는 내용은 뒤에서 찾아라"]],
- [2,"동사는 문장의 틀을 결정한다",["동사의 의미를 통해 뒤따라올 내용을 예측한다","복잡한 수동태는 하나의 표현처럼 생각하라","「조동사+have+p.p.」의 의미를 익혀 두자","동사와 함께 쓰이는 전치사를 알아 두자"]],
- [3,"형태와 위치가 다양한 목적어를 정복하라",["목적어로 절이 쓰인 경우에 유의하라","같은 의문사절 목적어라도 의미가 다를 수 있다","목적어로 it이 오면 뒤에 진목적어가 있는지 살펴보라","길이가 길거나 제 위치를 벗어난 목적어에 주의하라"]],
- [4,"보어는 불완전함을 보충한다",["be동사 뒤에 오는 주격보어에 유의하라","목적어와 목적격보어를 의미 단위로 구분하자","목적격보어로 부정사가 오는 동사를 정리해 두자","보어로 쓰인 분사를 바르게 파악하자"]],
- [5,"수식어는 괄호로 묶어라",["전치사구의 수식은 괄호로 묶어라","명사를 뒤에서 수식할 경우에 대비하라","to부정사의 수식은 문맥을 통해 의미를 구분하라","수식어가 많은 문장은 우선 주어와 동사를 찾아라"]],
- [6,"접속사로 문장 간의 논리를 간파하라",["짝이 되어 쓰이는 상관접속사를 기억하라","접속사 전후에 나오는 대등한 어구를 각각 묶어 보자","여러 개의 절이 있을 때는 먼저 주절을 찾아라","의미와 형태가 혼동되는 접속사를 알아 두자"]],
- [7,"관계사절이 꾸며 주는 말을 찾아라",["생략된 목적격 관계대명사를 찾아보자","관계사 앞의 수식어나 술어부를 괄호로 묶어 보자","관계부사의 선행사로 올 수 있는 말들을 알아 두자","계속적 용법은 앞뒤 문맥으로 의미를 파악한다","복합관계사의 두 가지 쓰임을 알아 두자"]],
- [8,"문맥을 통해 분사구문의 의미를 파악하라",["분사구문의 의미는 문맥으로 판단하자","과거분사로 시작하면 수동형 분사구문인지 따져 보라","분사구문의 접속사나 주어는 생략되지 않을 수도 있다","「with+(대)명사+v-ing/p.p.」도 분사구문처럼 해석하라"]],
- [9,"가정법의 형태와 의미를 혼동하지 마라",["가정법은 상황을 반대로 보면서 이해하라","「주어+wish/as if+가정법」은 주절의 시제와 비교하라","동사를 보고 가정의 의미가 숨어 있는지 확인하라","도치된 가정법 문장은 동사를 통해 파악한다"]],
- [10,"비교 표현의 형태를 이해하라",["비교 구문의 기본 형태와 주요 구문을 파악하라","비교 구문에서 무엇이 생략되었는지를 생각하라","원급·비교급을 이용한 최상급 표현을 익혀 두자","배수사를 사용하는 비교 표현에 유의하라"]],
- [11,"숨어 있는 부정의 의미를 찾아라",["부정의 의미를 가지는 표현들을 조심하라","부분부정과 이중부정에 주의하라","부정 강조어구는 해석하려고 애쓰지 마라"]],
- [12,"특수 구문의 질서를 익혀 두자",["어구의 생략에 주의하자","어려운 삽입구나 삽입절은 건너뛰어라","동격 관계의 형태를 익혀 두자","도치 구문의 주어와 동사를 찾아라"]]
-];
-
-let tech = 1, total = 0;
-const list = document.getElementById("list");
-const two = n => String(n).padStart(2,"0");
-CHAPTERS.forEach(([n,title,items])=>{
-  const first = tech;
-  const rows = items.map((t,i)=>{
-    const no = tech++;
-    const files = LECTURES[no] || [];
-    const btns = [0,1].map(j=>{
-      const label = "적용독해 " + two(i*2+j+1);
-      const id = files[j];
-      if(id){ total++; return `<a class="b-btn" href="${LECTURE_FOLDER}${id}.html">${label}<small>강의 보기</small></a>`; }
-      return `<span class="b-btn b-off">${label}<small>준비중</small></span>`;
-    }).join("");
-    return `<li><b>${two(no)}</b><span class="b-t">${t}</span><span class="b-pair">${btns}</span></li>`;
-  }).join("");
-  list.insertAdjacentHTML("beforeend",
-   `<section class="b-ch">
-      <div class="b-ch-head"><div class="b-num">${two(n)}</div><div class="b-ttl">${title}</div><div class="b-cnt">해석기법 ${first}–${tech-1} · 적용독해 ${items.length*2}개</div></div>
-      <ul class="b-techs">${rows}</ul>
-    </section>`);
-});
-document.getElementById("s1").textContent = "공개 강의 " + total + "개";
-</script>
 </body>
 </html>

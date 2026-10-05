@@ -26,8 +26,11 @@
 .b-num{font-size:30px;font-weight:900;color:var(--green);min-width:44px;line-height:1}
 .b-ttl{font-size:18px;font-weight:800;letter-spacing:-.5px;flex:1}
 .b-cnt{font-size:12px;font-weight:700;color:var(--sub)}
-.b-techs{list-style:none;padding:12px 18px 6px}
-.b-techs li{display:flex;gap:10px;font-size:14.5px;padding:3px 0}
+.b-techs{list-style:none;padding:4px 18px 8px}
+.b-techs li{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;font-size:14.5px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.b-techs li:last-child{border-bottom:0}
+.b-t{flex:1;min-width:200px}
+.b-pair{display:flex;gap:8px}
 .b-techs b{color:var(--teal);font-weight:900;min-width:22px}
 .b-lec{display:flex;gap:8px;flex-wrap:wrap;padding:10px 18px 16px}
 .bb .b-btn{display:inline-flex;flex-direction:column;gap:2px;font-size:15px;font-weight:900;padding:9px 18px;border-radius:4px;border:1px solid var(--green);background:var(--green);color:#ffffff;line-height:1.3}
@@ -37,6 +40,8 @@
 .b-mini{background:#fff8e6;border:1px dashed var(--amber);border-radius:6px;padding:16px 18px}
 .b-mini h2{font-size:17px;font-weight:800;margin-bottom:8px;color:#8a5a00}
 .b-mini .b-lec{padding:0}
+.bb .b-techs .b-btn{padding:6px 14px;font-size:14px;align-items:center;min-width:112px}
+.bb .b-btn.b-off small{color:#8a8e96}
 @media(max-width:560px){.b-hero h1{font-size:27px}.b-ttl{font-size:16px}}
 </style>
 </head>
@@ -68,20 +73,18 @@
 
 <script>
 /* ============================================================
-   ★ 강의를 새로 올릴 때는 아래 READY 목록에만 파일 번호를 추가하세요.
-   예) 5단원 강의 2개를 올렸다면  5:["05-09","05-10"]
-   (번호는 강의 폴더의 html 파일 이름과 같게 적습니다)
+   ★ 강의를 새로 올릴 때는 아래 LECTURES 목록에만 추가하세요.
+   형식:  해석기법번호:["적용독해 첫째 강의 파일","적용독해 둘째 강의 파일"]
+   (파일 이름은 강의 폴더의 html 파일 이름에서 .html만 뺀 것)
+   해석기법 번호는 1~48번(책의 해석기법 번호)입니다.
+   예) 해석기법 05 강의 2개를 올렸다면  5:["05-09","05-10"]
    ============================================================ */
-const READY = {
+const LECTURES = {
   1:["01-01","01-02"],
   2:["02-03","02-04"],
   3:["03-05","03-06"],
   4:["04-07","04-08"]
 };
-/* 각 강의 아래에 표시되는 구성 설명 (첫 번째 강의 = 지문, 두 번째 강의 = 적용독해) */
-const LABELS = ["지문 2개","적용독해 지문 2개"];
-/* 단원별 총 지문 수 (공개된 단원에 표시됩니다) */
-const PASSAGES = {1:8,2:8,3:8,4:8};
 const LECTURE_FOLDER = "강의/";
 
 const CHAPTERS = [
@@ -101,19 +104,24 @@ const CHAPTERS = [
 
 let tech = 1, total = 0;
 const list = document.getElementById("list");
+const two = n => String(n).padStart(2,"0");
 CHAPTERS.forEach(([n,title,items])=>{
-  const ready = READY[n] || [];
-  total += ready.length;
   const first = tech;
-  const lis = items.map(t=>`<li><b>${String(tech++).padStart(2,"0")}</b><span>${t}</span></li>`).join("");
-  const btns = ready.length
-    ? ready.map((id,i)=>`<a class="b-btn" href="${LECTURE_FOLDER}${id}.html">${id} 강의 보기<small>${LABELS[i]||""}</small></a>`).join("")
-    : `<span class="b-btn b-off">준비중</span>`;
+  const rows = items.map((t,i)=>{
+    const no = tech++;
+    const files = LECTURES[no] || [];
+    const btns = [0,1].map(j=>{
+      const label = "적용독해 " + two(i*2+j+1);
+      const id = files[j];
+      if(id){ total++; return `<a class="b-btn" href="${LECTURE_FOLDER}${id}.html">${label}<small>강의 보기</small></a>`; }
+      return `<span class="b-btn b-off">${label}<small>준비중</small></span>`;
+    }).join("");
+    return `<li><b>${two(no)}</b><span class="b-t">${t}</span><span class="b-pair">${btns}</span></li>`;
+  }).join("");
   list.insertAdjacentHTML("beforeend",
    `<section class="b-ch">
-      <div class="b-ch-head"><div class="b-num">${String(n).padStart(2,"0")}</div><div class="b-ttl">${title}</div><div class="b-cnt">해석기법 ${first}–${tech-1}${PASSAGES[n]?" · 총 "+PASSAGES[n]+"개 지문":""}</div></div>
-      <ul class="b-techs">${lis}</ul>
-      <div class="b-lec">${btns}</div>
+      <div class="b-ch-head"><div class="b-num">${two(n)}</div><div class="b-ttl">${title}</div><div class="b-cnt">해석기법 ${first}–${tech-1} · 적용독해 ${items.length*2}개</div></div>
+      <ul class="b-techs">${rows}</ul>
     </section>`);
 });
 document.getElementById("s1").textContent = "공개 강의 " + total + "개";
