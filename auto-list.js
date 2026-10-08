@@ -26,13 +26,23 @@
  *   자동으로 구분되어 표시됩니다. index.html은 손댈 필요가 없습니다.
  *     해설-full.html → 본문해설강의 (전체)
  *     해설-1.html    → 본문해설강의 1
+ *
+ * [모의고사 폴더 전용 추가 기능] 새 버전(지문분석메이커) 문항 해설
+ *   모의고사 폴더 안에서만, 파일명 뒤에 "_new"를 붙이면
+ *   해당 문항의 기존 해설 바로 다음 줄에 "new" 해설이 표시됩니다.
+ *   index.html은 손댈 필요가 없습니다.
+ *     20.html      → 20번 문항 해설
+ *     20_new.html  → 20번 문항 해설 new
+ *     full_new.html → 전체 해설강의 new
+ *   (오디오 폴더도 같은 규칙: 20_audio → 20_new_audio)
  * ------------------------------------------------------
  */
 
 (function () {
   var GRAMMAR_PREFIX = "해설-"; // 본문해설강의 파일명 접두사
+  var NEW_SUFFIX = "_new";      // 모의고사 새 버전 파일명 접미사
 
-  function labelFor(kind, n, isGrammar) {
+  function labelFor(kind, n, isGrammar, isNew) {
     if (isGrammar) {
       return n === "full"
         ? { tag: "전체", txt: "본문해설강의 (전체)" }
@@ -46,9 +56,10 @@
     if (kind === "문법") return { tag: String(n), txt: "문법 포인트 " + n };
     if (kind === "듣기") return { tag: String(n), txt: "스크립트 " + n };
     if (kind === "모의고사") {
+      var suffix = isNew ? " new" : "";
       return n === "full"
-        ? { tag: "전체", txt: "전체 해설강의" }
-        : { tag: String(n), txt: n + "번 문항 해설" };
+        ? { tag: "전체", txt: "전체 해설강의" + suffix }
+        : { tag: String(n), txt: n + "번 문항 해설" + suffix };
     }
     return { tag: String(n), txt: String(n) };
   }
@@ -59,14 +70,14 @@
       .catch(function () { return false; });
   }
 
-  function addRow(container, kind, fileName, n, isGrammar) {
-    var info = labelFor(kind, n, isGrammar);
+  function addRow(container, kind, fileName, n, isGrammar, isNew) {
+    var info = labelFor(kind, n, isGrammar, isNew);
     var a = document.createElement("a");
     a.className = "unit-row";
     a.href = "./" + fileName;
 
     var tag = document.createElement("span");
-    tag.className = "tag" + (isGrammar ? " key" : "");
+    tag.className = "tag" + (isGrammar || isNew ? " key" : "");
     tag.textContent = info.tag;
 
     var txt = document.createElement("span");
@@ -87,18 +98,26 @@
     var kind = container.getAttribute("data-kind") || "";
     var hasFull = container.getAttribute("data-full") === "true";
     var maxN = parseInt(container.getAttribute("data-max") || "6", 10);
+    var supportsNew = kind === "모의고사";
 
     var checks = [];
-    if (hasFull) checks.push({ file: "full.html", n: "full", grammar: false });
-    for (var i = 1; i <= maxN; i++) checks.push({ file: i + ".html", n: i, grammar: false });
+    if (hasFull) {
+      checks.push({ file: "full.html", n: "full", grammar: false, isNew: false });
+      if (supportsNew) checks.push({ file: "full" + NEW_SUFFIX + ".html", n: "full", grammar: false, isNew: true });
+    }
+    for (var i = 1; i <= maxN; i++) {
+      checks.push({ file: i + ".html", n: i, grammar: false, isNew: false });
+      // 모의고사: 기존 해설 바로 다음에 new 해설을 배치
+      if (supportsNew) checks.push({ file: i + NEW_SUFFIX + ".html", n: i, grammar: false, isNew: true });
+    }
 
     // "본문" 폴더에 한해서 본문해설강의(해설- 접두사) 파일도 함께 확인
     if (kind === "본문") {
-      if (hasFull) checks.push({ file: GRAMMAR_PREFIX + "full.html", n: "full", grammar: true });
-      for (var j = 1; j <= maxN; j++) checks.push({ file: GRAMMAR_PREFIX + j + ".html", n: j, grammar: true });
+      if (hasFull) checks.push({ file: GRAMMAR_PREFIX + "full.html", n: "full", grammar: true, isNew: false });
+      for (var j = 1; j <= maxN; j++) checks.push({ file: GRAMMAR_PREFIX + j + ".html", n: j, grammar: true, isNew: false });
     }
 
-    // 존재 여부를 모두 확인한 뒤, 원래 순서대로 표시(본문강의 → 본문해설강의)
+    // 존재 여부를 모두 확인한 뒤, 원래 순서대로 표시
     Promise.all(
       checks.map(function (c) {
         return fileExists("./" + c.file).then(function (exists) {
@@ -107,7 +126,7 @@
       })
     ).then(function (results) {
       results.forEach(function (c) {
-        if (c) addRow(container, kind, c.file, c.n, c.grammar);
+        if (c) addRow(container, kind, c.file, c.n, c.grammar, c.isNew);
       });
     });
   }
