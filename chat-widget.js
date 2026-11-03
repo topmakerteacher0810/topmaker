@@ -11,6 +11,14 @@
   if (window.__cmChat) return;
   window.__cmChat = true;
 
+  // 학습 완료 인증: cmacademy 서버의 learn-check.js 를 불러옴 → 기록은 같은 노션(학생 명단·인증 기록)에 모임
+  if (!window.__cmLearnLoad) {
+    window.__cmLearnLoad = true;
+    var lc = document.createElement("script");
+    lc.src = "https://cmacademy.vercel.app/learn-check.js"; lc.defer = true;
+    (document.head || document.documentElement).appendChild(lc);
+  }
+
   var API = "/api/chat";
   var LS_CODE = "cm-chat-code";
   var SS_KEY = "cm-chat:" + location.pathname;
